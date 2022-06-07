@@ -1,4 +1,4 @@
-(ns music-library.core-test
+(ns wikipedia-search.core-test
   (:require [clojure.test :refer :all]
             [music-library.core :refer :all]))
 
