@@ -7,7 +7,7 @@
                  [clj-http "3.12.3"]
                  [cheshire "5.11.0"]
                  [org.clojure/data.json "2.4.0"]]
-  :main ^:skip-aot music-library.core
+  :main ^:skip-aot wikipedia-search.core
   :target-path "target/%s"
   :profiles {:uberjar {:aot :all
                        :jvm-opts ["-Dclojure.compiler.direct-linking=true"]}})
