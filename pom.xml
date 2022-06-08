@@ -14,7 +14,12 @@
       <url>https://www.eclipse.org/legal/epl-2.0/</url>
     </license>
   </licenses>
-  <scm/>
+  <scm>
+    <url>https://github.com/bzhou1/wikipedia-search</url>
+    <connection>scm:git:git://github.com/bzhou1/wikipedia-search.git</connection>
+    <developerConnection>scm:git:ssh://git@github.com/bzhou1/wikipedia-search.git</developerConnection>
+    <tag>a183481d10215f9ba5d376c0600818a211f833d7</tag>
+  </scm>
   <build>
     <sourceDirectory>src</sourceDirectory>
     <testSourceDirectory>test</testSourceDirectory>
