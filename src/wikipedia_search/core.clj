@@ -32,13 +32,13 @@
   "Search wikipedia for keyword. If exists, returns URL & extract in hash map"
   [input]
   
-  ; First API call - sees if the Wikipedia page exists
+  ;; First API call - sees if the Wikipedia page exists
   (let [extract-info (parse-string (get-extract-info input) true)
         missing (get-in extract-info [:query :pages 0 :missing])]
       (if missing
         {:success? false}
 
-        ; If the page does exist, print extract and pulls+prints URL to page
+        ;; If the page does exist, print extract and pulls+prints URL to page
         (do
           (let [extract (get-in extract-info [:query :pages 0 :extract])
                 page-info (parse-string (get-page-info input) true)
@@ -54,3 +54,5 @@
   )
    
 
+;; (wikipedia-search "jazz")
+;; (wikipedia-search "asdhfoausdf")
