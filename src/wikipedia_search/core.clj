@@ -2,57 +2,60 @@
   (:require [clj-http.client :as client])
   (:require [cheshire.core :refer :all])
   (:require [clojure.data.json :as json])
+  (:require [clojure.string :as str])
   (:gen-class))
 
 
-(defn get-extract-info
-  "Pulls if Wikipedia page is real, extracts, pageid"
-  [input]
-  (let [api-url "https://en.wikipedia.org/w/api.php?"]
-  (:body (client/get api-url
-                     {:cookie-policy :none :query-params
-                      {:action "query" :format "json" :prop "extracts"
-                       :titles input :formatversion "2"
-                       :exsentences "3" :exlimit "1"}}))
-  ))
-
-(defn get-page-info
-  "Pulls URL"
-  [input]
-  (let [api-url "https://en.wikipedia.org/w/api.php?"]
-  (:body (client/get api-url
-                     {:cookie-policy :none :query-params
-                      {:action "query" :titles input
-                       :prop "info" :inprop "url|talkid"
-                       :format "json"}}))
-  )
+;;
+;; Get page info via API call as JSON
+;;
+(defn get-page-summary
+  [search-term]
+  (let [api-url (str "https://en.wikipedia.org/api/rest_v1/page/summary/" search-term)]
+    (:body (client/get api-url {:cookie-policy :none :throw-exceptions false :as :json}))
+    )
   )
 
-(defn wikipedia-search
-  "Search wikipedia for keyword. If exists, returns URL & extract in hash map"
+;;
+;; Check if the Wikipedia page exists
+;;
+(defn is-page-exists
+  [page-summary]
+    (if (and (= (get page-summary :title) "Not found.")
+             (= (get page-summary :type) "https://mediawiki.org/wiki/HyperSwitch/errors/not_found"))
+      false
+      true)
+  )
+
+
+;;
+;; Check if the title of the Wikipedia page matches user input
+;; Prevents redirected pages & subsection errors
+;;
+(defn is-title-input
+  [page-summary input]
+  (if (= (get page-summary :title) (str/capitalize input))
+    true
+    false)
+  )
+
+;;
+;; Search Wikipedia for input. If exists, returns URL & extract in hash map.
+;;
+(defn wiki-search
   [input]
-  
-  ;; First API call - sees if the Wikipedia page exists
-  (let [extract-info (parse-string (get-extract-info input) true)
-        missing (get-in extract-info [:query :pages 0 :missing])]
-      (if missing
-        {:success? false}
 
-        ;; If the page does exist, print extract and pulls+prints URL to page
-        (do
-          (let [extract (get-in extract-info [:query :pages 0 :extract])
-                page-info (parse-string (get-page-info input) true)
-                pageid (get-in extract-info [:query :pages 0 :pageid])
-                url (get-in page-info [:query :pages (keyword (str pageid)) :fullurl])]
+  ;; Check if the Wikipedia page exists
+  (let [page-summary (get-page-summary input)]
 
-            ; Return values in hash map
-            {:success? true :extract extract :url url}
-            )
-          )
-        )
+    ;; If it passes preconditions, return extract + URL from page-summary 
+    (if (and (is-page-exists [page-summary])
+             (is-title-input page-summary input))
+      (do (let [extract (get page-summary :extract)
+                url (get page-summary :url)]
+        {:success? true :extract extract :url url})
       )
+      ;; If not, return false success
+      {:success? false})
+    )
   )
-   
-
-;; (wikipedia-search "jazz")
-;; (wikipedia-search "asdhfoausdf")
