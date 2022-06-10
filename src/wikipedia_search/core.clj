@@ -54,7 +54,7 @@
       (do (let [extract (get page-summary :extract)
                 extract_html (get page-summary :extract_html)
                 url (get-in page-summary [:content_urls :desktop :page])]
-        {:success? true :extract extract :extract_html extract_html :url url})
+        {:success? true :extract extract :extract-html extract_html :url url})
       )
       ;; If not, return false success
       {:success? false})
