@@ -52,8 +52,9 @@
     (if (and (is-page-exists [page-summary])
              (is-title-input page-summary input))
       (do (let [extract (get page-summary :extract)
+                extract_html (get page-summary :extract_html)
                 url (get page-summary :url)]
-        {:success? true :extract extract :url url})
+        {:success? true :extract extract :extract_html extract_html :url url})
       )
       ;; If not, return false success
       {:success? false})
