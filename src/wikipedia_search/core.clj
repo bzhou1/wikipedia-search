@@ -34,7 +34,7 @@
 ;;
 (defn is-title-input
   [page-summary input]
-  (if (= (get page-summary :title) (str/capitalize input))
+  (if (= (str/upper-case(get page-summary :title)) (str/upper-case input))
     true
     false)
   )
@@ -52,9 +52,12 @@
     (if (and (is-page-exists [page-summary])
              (is-title-input page-summary input))
       (do (let [extract (get page-summary :extract)
-                extract_html (get page-summary :extract_html)
-                url (get-in page-summary [:content_urls :desktop :page])]
-        {:success? true :extract extract :extract-html extract_html :url url})
+                extract-html (get page-summary :extract_html)
+                url (get-in page-summary [:content_urls :desktop :page])
+                thumbnail-img (get-in page-summary [:thumbnail :source])
+                original-img (get-in page-summary [:originalimage :source])]
+        {:success? true :extract extract :extract-html extract-html :url url
+         :thumbnail-img thumbnail-img :original-img original-img})
       )
       ;; If not, return false success
       {:success? false})

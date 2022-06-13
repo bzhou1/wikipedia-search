@@ -14,4 +14,8 @@
   (is (= (get (wiki-search "juji") :success?) false))
   (is (= (get (wiki-search "stone") :success?) false))
   (is (= (get (wiki-search "apple") :success?) true))
+
+  (is (= (is-page-exists (get-page-summary "President of India")) true))
+  (is (= (= (is-title-input (get-page-summary "President of India") "President of India")) true))
+  (is (= (get (wiki-search "President of India") :success?) true))
 )

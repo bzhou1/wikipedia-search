@@ -4,7 +4,7 @@
   <groupId>org.clojars.bzhou1</groupId>
   <artifactId>wikipedia-search</artifactId>
   <packaging>jar</packaging>
-  <version>1.0.5</version>
+  <version>1.0.6</version>
   <name>wikipedia-search</name>
   <description>Search Wikipedia using any keyword. Returns extract &amp; URL as hash map</description>
   <url>https://github.com/bzhou1</url>
@@ -18,7 +18,7 @@
     <url>https://github.com/bzhou1/wikipedia-search</url>
     <connection>scm:git:git://github.com/bzhou1/wikipedia-search.git</connection>
     <developerConnection>scm:git:ssh://git@github.com/bzhou1/wikipedia-search.git</developerConnection>
-    <tag>d8aed0d791105e79b78bef91d7bf80a05286f2ef</tag>
+    <tag>246ab1cc31bf062123f8f7396845e5cab6ef1e04</tag>
   </scm>
   <build>
     <sourceDirectory>src</sourceDirectory>
